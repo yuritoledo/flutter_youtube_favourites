@@ -19,7 +19,9 @@ class VideoTile extends StatelessWidget {
               video.thumb,
               fit: BoxFit.cover,
             ),
-          )
+          ),
+          Text(video.channel),
+          Text(video.title),
         ],
       ),
     );
