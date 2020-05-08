@@ -38,7 +38,7 @@ class Home extends StatelessWidget {
             itemBuilder: (context, index) {
               return VideoTile(snapshot.data[index]);
             },
-            itemCount: snapshot.data,
+            itemCount: snapshot.data.length,
           );
         },
       ),

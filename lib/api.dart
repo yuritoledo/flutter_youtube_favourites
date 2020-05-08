@@ -16,10 +16,10 @@ class Api {
   List<Video> decode(http.Response response) {
     if (response.statusCode == 200) {
       final decoded = json.decode(response.body);
-      List<Video> list =
+      List<Video> videos =
           decoded['items'].map<Video>((item) => Video.fromJson(item)).toList();
 
-      return list;
+      return videos;
     }
 
     throw new Exception('hakuna matata');

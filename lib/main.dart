@@ -10,11 +10,12 @@ main(List<String> args) {
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Youutube',
-      home: BlocProvider<VideosBloc>(
-        child: Home(),
-        bloc: VideosBloc(),
+    return BlocProvider<VideosBloc>(
+      bloc: VideosBloc(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Youutube',
+        home: Home(),
       ),
     );
   }
