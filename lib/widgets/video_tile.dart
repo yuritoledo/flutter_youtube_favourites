@@ -9,6 +9,7 @@ class VideoTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Colors.black,
       margin: EdgeInsets.symmetric(vertical: 4.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -20,8 +21,38 @@ class VideoTile extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-          Text(video.channel),
-          Text(video.title),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+                      child: Text(
+                        video.channel,
+                        style: TextStyle(color: Colors.white, fontSize: 16.0),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Text(
+                        video.title,
+                        maxLines: 2,
+                        style: TextStyle(color: Colors.white, fontSize: 14.0),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              IconButton(
+                icon: Icon(Icons.star_border),
+                iconSize: 30.0,
+                onPressed: () {},
+                color: Colors.white,
+              ),
+            ],
+          ),
         ],
       ),
     );

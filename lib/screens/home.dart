@@ -7,6 +7,8 @@ import 'package:youtube_favourites/widgets/video_tile.dart';
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final videosBloc = BlocProvider.of<VideosBloc>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Youuutube'),
@@ -23,25 +25,50 @@ class Home extends StatelessWidget {
                     await showSearch(context: context, delegate: DataSearch());
 
                 if (search != null) {
-                  BlocProvider.of<VideosBloc>(context).inSearch.add(search);
+                  videosBloc.inSearch.add(search);
                 }
               }),
         ],
       ),
       body: StreamBuilder(
-        stream: BlocProvider.of<VideosBloc>(context).outVideos,
-        // stream: VideosBloc().outVideos,
+        initialData: [],
+        stream: videosBloc.outVideos,
         builder: (context, snapshot) {
           if (!snapshot.hasData) return Container();
 
           return ListView.builder(
+            itemCount: snapshot.data.length + 1,
             itemBuilder: (context, index) {
-              return VideoTile(snapshot.data[index]);
+              if (index < snapshot.data.length) {
+                return VideoTile(snapshot.data[index]);
+              } else if (index > 1) {
+                videosBloc.inSearch.add(null);
+                return Loader();
+              } else {
+                return Container();
+              }
             },
-            itemCount: snapshot.data.length,
           );
         },
       ),
+    );
+  }
+}
+
+class Loader extends StatelessWidget {
+  const Loader({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
+      ),
+      height: 40,
+      width: 40,
+      alignment: Alignment.center,
     );
   }
 }
