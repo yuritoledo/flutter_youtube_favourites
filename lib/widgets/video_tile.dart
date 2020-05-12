@@ -1,4 +1,6 @@
+import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
+import 'package:youtube_favourites/bloc/favourites_bloc.dart';
 import 'package:youtube_favourites/models/video.dart';
 
 class VideoTile extends StatelessWidget {
@@ -8,6 +10,8 @@ class VideoTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final favBloc = BlocProvider.of<FavouritesBloc>(context);
+
     return Container(
       color: Colors.black,
       margin: EdgeInsets.symmetric(vertical: 4.0),
@@ -45,12 +49,23 @@ class VideoTile extends StatelessWidget {
                   ],
                 ),
               ),
-              IconButton(
-                icon: Icon(Icons.star_border),
-                iconSize: 30.0,
-                onPressed: () {},
-                color: Colors.white,
-              ),
+              StreamBuilder<Map<String, Video>>(
+                  stream: favBloc.favStream,
+                  initialData: {},
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) return CircularProgressIndicator();
+
+                    final icon = snapshot.data.containsKey(video.id)
+                        ? Icons.star
+                        : Icons.star_border;
+
+                    return IconButton(
+                      icon: Icon(icon),
+                      iconSize: 30.0,
+                      onPressed: () => favBloc.toggleFavourite(video),
+                      color: Colors.white,
+                    );
+                  }),
             ],
           ),
         ],
