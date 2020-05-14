@@ -18,7 +18,6 @@ class Home extends StatelessWidget {
         backgroundColor: Colors.black87,
         actions: <Widget>[
           StreamBuilder<Map<String, Video>>(
-              initialData: {},
               stream: favBloc.favStream,
               builder: (context, snapshot) {
                 return Align(
