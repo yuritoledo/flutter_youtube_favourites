@@ -4,6 +4,7 @@ import 'package:youtube_favourites/bloc/favourites_bloc.dart';
 import 'package:youtube_favourites/bloc/videos_bloc.dart';
 import 'package:youtube_favourites/delegates/data_search.dart';
 import 'package:youtube_favourites/models/video.dart';
+import 'package:youtube_favourites/screens/favourites.dart';
 import 'package:youtube_favourites/widgets/video_tile.dart';
 
 class Home extends StatelessWidget {
@@ -19,12 +20,15 @@ class Home extends StatelessWidget {
         actions: <Widget>[
           StreamBuilder<Map<String, Video>>(
               stream: favBloc.favStream,
-              builder: (context, snapshot) {
-                return Align(
-                  child: Text(snapshot.data?.length.toString() ?? 0),
-                );
+              builder: (context, snapshot) => Align(
+                    child: Text('${snapshot.data?.length}' ?? 0),
+                  )),
+          IconButton(
+              icon: Icon(Icons.star),
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => Favourites()));
               }),
-          IconButton(icon: Icon(Icons.star), onPressed: () {}),
           IconButton(
               icon: Icon(Icons.search),
               onPressed: () async {
